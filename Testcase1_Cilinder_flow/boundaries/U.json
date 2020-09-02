@@ -1,0 +1,17 @@
+{
+	"slip": {
+		"type": "Fixed value",
+		"value": 0
+	},
+	"no_slip":{
+		"type": "Fixed value",
+		"value": 0
+	},
+	"inflow":{
+		"type": "Fixed value",
+		"value": 1
+	},
+	"outflow":{
+		"type": "Zero gradient"
+	}
+}

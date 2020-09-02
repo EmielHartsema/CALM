@@ -1,0 +1,15 @@
+{
+	"slip": {
+		"type": "Zero gradient"
+	},
+	"no_slip":{
+		"type": "Zero gradient"
+	},
+	"inflow":{
+		"type": "Zero gradient"
+	},
+	"outflow":{
+		"type": "fixed value",
+		"value": 0
+	}
+}
