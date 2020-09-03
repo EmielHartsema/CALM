@@ -27,8 +27,8 @@ for el_index = 1:size(myCFD.Mesh.Elements,1)
     
     for i=1:topology
         global_index = elmat(el_index,i);
-        gradpx(global_index) = gradpx(global_index) + beta(i)*cp(global_index);
-        gradpy(global_index) = gradpy(global_index) + gamma(i)*cp(global_index);
+        gradpx(global_index) = gradpx(global_index) + beta(i)*cp(global_index)/topology;
+        gradpy(global_index) = gradpy(global_index) + gamma(i)*cp(global_index)/topology;
     end
 end
 
