@@ -25,7 +25,7 @@ BMelem = zeros(topologybnd);
 for index1=1:topologybnd
     globalindex1 = elmatbnd(el_index,index1);
     for index2 = 1:topologybnd
-        boundarytype = myCFD.boundaries.p.(bndtag(globalindex1));
+        boundarytype = myCFD.boundaries.p.(bndtag(globalindex1)).type;
         
         %BMelem(index1,index2) = -nu*(beta(index2)*nx+gamma(index2)*ny)*abs(Delta)/2; %Transfer_rate_Coeff*lek/6*(1+double(eq(index1,index2)));
         if strcmp(boundarytype,"Fixed value")

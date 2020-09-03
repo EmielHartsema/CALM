@@ -21,7 +21,8 @@ topology = myCFD.Mesh.topology.element;
 elmat = myCFD.Mesh.Elements;
 x = myCFD.Mesh.Nodes(1,:);
 y = myCFD.Mesh.Nodes(2,:);
-A = myCFD.Residual.A;
+Ax = myCFD.Residual.Ax;
+Ay = myCFD.Residual.Ay;
 
 
 xc = zeros(1,topology);
@@ -42,13 +43,16 @@ gamma = B_mat(3,1:3);
 Selem = zeros(3);
 for index1 = 1:topology
 	for index2 = 1:topology
-        sum_a = 0;
+        sum_ax = 0;
+        sum_ay = 0;
         for i=1:3
             globalindex = elmat(el_index,i);
-            sum_a = sum_a + 1/A(globalindex);
+            sum_ax = sum_ax + 1/Ax(globalindex);
+            sum_ay = sum_ay + 1/Ay(globalindex);
         end
-        Selem(index1,index2) = (beta(index1)*beta(index2)+gamma(index1)*gamma(index2))*...
-                                sum_a*abs(Delta)/6;
+        Selem(index1,index2) = (beta(index1)*beta(index2)*sum_ax+...
+                                gamma(index1)*gamma(index2)*sum_ay)*...
+                                abs(Delta)/6;
 	end
 end
 

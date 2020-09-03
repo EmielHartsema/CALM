@@ -30,26 +30,37 @@ myCFD.Solution.Uy = zeros(size(myCFD.Mesh.Nodes,2),1);
 myCFD.Solution.p = zeros(size(myCFD.Mesh.Nodes,2),1);
 
 %create waitbar
-bar = waitbar(0,'1','Name','calculating solution...',...
-    'CreateCancelBtn','setappdata(gcbf,''canceling'',1)');
-setappdata(bar,'canceling',0);
+%bar = waitbar(0,'1','Name','calculating solution...',...
+%    'CreateCancelBtn','setappdata(gcbf,''canceling'',1)');
+%setappdata(bar,'canceling',0);
 for outerloop = 1:n_it
 %% Momentum predictor
-% assemble matrix
+% assemble matrix for ux
 [M,f] = ux_BuildMatricesandVectors(myCFD);
 %figure;spy(M);
+
 % Solve system
 myCFD.Solution.Ux = solvematrix_momentum(myCFD,M,f);
 
-[M,f] = uy_BuildMatricesandVectors(myCFD);
-myCFD.Solution.Uy = solvematrix_momentum(myCFD,M,f);
-
-%% Pressure corrector
-myCFD.Residual.A = diag(M);
+%calculate residuals
+myCFD.Residual.Ax = diag(M);
 A = diag(diag(M));
 myCFD.Residual.Hx = (M-A)*myCFD.Solution.Ux;
+
+
+% assemble matrix for uy
+[M,f] = uy_BuildMatricesandVectors(myCFD);
+%figure;spy(M);
+
+% Solve system
+myCFD.Solution.Uy = solvematrix_momentum(myCFD,M,f);
+
+%calculate residuals
+myCFD.Residual.Ay = diag(M);
+A = diag(diag(M));
 myCFD.Residual.Hy = (M-A)*myCFD.Solution.Uy;
 
+%% Pressure corrector
 %assemble matrix
 [M,f] = pres_BuildMatricesandVectors(myCFD);
 %figure;spy(M);
@@ -62,15 +73,16 @@ myCFD.Solution.Ux = Ux;
 myCFD.Solution.Uy = Uy;
 
 %waitbar controls
-waitbar(outerloop/n_it,bar,'computing solution');
+%waitbar(outerloop/n_it,bar,'computing solution');
 % Check for clicked Cancel button
-if getappdata(bar,'canceling')
-    break
-end
+%if getappdata(bar,'canceling')
+%    break
+%end
 end%end of outer loop
-delete(bar)
+%delete(bar)
 % Post Processing
-pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.Ux)
+myCFD.Solution.U = sqrt(myCFD.Solution.Ux.^2+myCFD.Solution.Uy.^2);
+pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.U)
 
 
 % Display solution
