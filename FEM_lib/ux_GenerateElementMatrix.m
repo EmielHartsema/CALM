@@ -1,4 +1,4 @@
-function [Selem] = GenerateElementMatrix(el_index,myCFD)
+function [Selem] = ux_GenerateElementMatrix(el_index,myCFD)
 
 % Module for element mass matrix for reactive term
 %

@@ -1,4 +1,4 @@
-function [bfelem] = GenerateBoundaryElementVector(~,myCFD,~)
+function [bfelem] = ux_GenerateBoundaryElementVector(~,myCFD,~)
 %GENERATEBOUNDARYELEMENTVECTOR Summary of this function goes here
 %   Detailed explanation goes here
 

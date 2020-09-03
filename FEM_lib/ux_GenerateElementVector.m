@@ -1,4 +1,4 @@
-function [felem] = GenerateElementVector(el_index,myCFD,dir)
+function [felem] = ux_GenerateElementVector(el_index,myCFD)
 %GENERATEELEMENTVECTOR Summary of this function goes here
 %   Detailed explanation goes here
 % Module for element mass matrix for reactive term
@@ -27,7 +27,7 @@ B_mat = [1 xc(1) yc(1);1 xc(2) yc(2);1 xc(3) yc(3)] \  eye(3);
 
 %alpha = B_mat(1,1:3);
 beta  = B_mat(2,1:3);
-%gamma = B_mat(3,1:3);
+gamma = B_mat(3,1:3);
 
 sum_cpbeta = 0;
 sum_cpgamma = 0;
@@ -37,11 +37,7 @@ for index1 = 1:topology
     sum_cpbeta = sum_cpbeta + cp(global_index)*beta(index1);
     sum_cpgamma = sum_cpgamma + cp(global_index)*gamma(index1);
 end
-if dir ==1% xdirection
-    felem(1:topology) = -sum_cpbeta*abs(Delta)/6;
-elseif dir==2 % y direction
-    felem(1:topology) = -sum_cpgamma*abs(Delta)/6;
-else
-    error('GenerateElementVector: invalid value for dir')
+felem(1:topology) = -sum_cpbeta*abs(Delta)/6;
+
 end
 

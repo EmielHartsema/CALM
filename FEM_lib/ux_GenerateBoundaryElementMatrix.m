@@ -1,4 +1,4 @@
-function [BMelem] = GenerateBoundaryElementMatrix(el_index,myCFD)
+function [BMelem] = ux_GenerateBoundaryElementMatrix(el_index,myCFD)
 %GENERATEBOUNDARYELEMENTMATRIX Summary of this function goes here
 %   Detailed explanation goes here
 clear xc

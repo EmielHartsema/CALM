@@ -8,7 +8,7 @@ Date: 16-4-2020
 %}
 
 %Simulation parameters
-n_it = 1;
+n_it = 10;
 % add path to libraries
 addpath('readmsh');
 addpath('FEM_lib')
@@ -36,11 +36,13 @@ setappdata(bar,'canceling',0);
 for outerloop = 1:n_it
 %% Momentum predictor
 % assemble matrix
-[M,fx,fy] = BuildMatricesandVectors(myCFD);
+[M,f] = ux_BuildMatricesandVectors(myCFD);
 %figure;spy(M);
 % Solve system
-myCFD.Solution.Ux = solvematrix_momentum(myCFD,M,fx);
-myCFD.Solution.Uy = solvematrix_momentum(myCFD,M,fy);
+myCFD.Solution.Ux = solvematrix_momentum(myCFD,M,f);
+
+[M,f] = uy_BuildMatricesandVectors(myCFD);
+myCFD.Solution.Uy = solvematrix_momentum(myCFD,M,f);
 
 %% Pressure corrector
 myCFD.Residual.A = diag(M);
