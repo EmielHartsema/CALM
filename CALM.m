@@ -8,7 +8,7 @@ Date: 16-4-2020
 %}
 
 %Simulation parameters
-n_it = 10;
+n_it = 100;
 % add path to libraries
 addpath('readmsh');
 addpath('FEM_lib')
@@ -40,7 +40,7 @@ for outerloop = 1:n_it
 %figure;spy(M);
 
 % Solve system
-myCFD.Solution.Ux = solvematrix_momentum(myCFD,M,f);
+myCFD.Solution.Ux = solvematrix_momentum_x(myCFD,M,f);
 
 %calculate residuals
 myCFD.Residual.Ax = diag(M);
@@ -53,7 +53,7 @@ myCFD.Residual.Hx = (M-A)*myCFD.Solution.Ux;
 %figure;spy(M);
 
 % Solve system
-myCFD.Solution.Uy = solvematrix_momentum(myCFD,M,f);
+myCFD.Solution.Uy = solvematrix_momentum_y(myCFD,M,f);
 
 %calculate residuals
 myCFD.Residual.Ay = diag(M);
@@ -82,8 +82,6 @@ end%end of outer loop
 %delete(bar)
 % Post Processing
 myCFD.Solution.U = sqrt(myCFD.Solution.Ux.^2+myCFD.Solution.Uy.^2);
-pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.U)
-
 
 % Display solution
-
+pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.U)

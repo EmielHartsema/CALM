@@ -46,7 +46,7 @@ for el_index = 1:length(elmatbnd(:,1)) % for all boundary elements extension of 
     end
     
     % boundary source term x direction
-	bfelem = ux_GenerateBoundaryElementVector(el_index,myCFD,1); % bfelem   
+	bfelem = ux_GenerateBoundaryElementVector(el_index,myCFD); % bfelem   
     for ind1 = 1:topologybnd
         f(elmatbnd(el_index,ind1)) = f(elmatbnd(el_index,ind1)) + bfelem(ind1);
     end

@@ -1,4 +1,4 @@
-function [c] = solvematrix_momentum(myCFD,S,f)
+function [c] = solvematrix_momentum_x(myCFD,S,f)
 %SOLVEMATRIX Summary of this function goes here
 %   Detailed explanation goes here
 
