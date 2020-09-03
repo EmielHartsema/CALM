@@ -17,8 +17,8 @@ addpath('FEM_lib')
 %proj_folder = uigetdir;
 proj_folder = 'C:\Users\Emiel\Documents\CALM\Testcase1_Cilinder_flow';
 myCFD.transport_prop = jsondecode(fileread(strcat(proj_folder,'\transport_prop.json')));
-myCFD.boundaries.Ux = jsondecode(fileread(strcat(proj_folder,'\boundaries\U.json')));
-myCFD.boundaries.Uy = myCFD.boundaries.Ux;
+myCFD.boundaries.Ux = jsondecode(fileread(strcat(proj_folder,'\boundaries\Ux.json')));
+myCFD.boundaries.Uy = jsondecode(fileread(strcat(proj_folder,'\boundaries\Uy.json')));
 myCFD.boundaries.p = jsondecode(fileread(strcat(proj_folder,'\boundaries\P.json')));
 % Load mesh
 myCFD.Mesh = importmsh(strcat(proj_folder,'\mesh.msh'));
