@@ -41,7 +41,7 @@ elseif all(ip<=0)
 else
     error('FindNormal, this should not be possible')
 end
-nx = normal(1);
-ny = normal(2);
+nx = normal(1)/norm(normal);
+ny = normal(2)/norm(normal);
 end
 
