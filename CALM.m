@@ -8,7 +8,7 @@ Date: 16-4-2020
 %}
 
 %Simulation parameters
-n_it = 10;
+n_it = 1;
 % add path to libraries
 addpath('readmsh');
 addpath('FEM_lib')
