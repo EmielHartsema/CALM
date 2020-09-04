@@ -8,14 +8,14 @@ Date: 16-4-2020
 %}
 
 %Simulation parameters
-n_it = 100;
+n_it = 10;
 % add path to libraries
 addpath('readmsh');
 addpath('FEM_lib')
 
 % Read settings
-%proj_folder = uigetdir;
-proj_folder = 'C:\Users\Emiel\Documents\CALM\Testcase1_Cilinder_flow';
+proj_folder = uigetdir;
+%proj_folder = 'C:\Users\Emiel\Documents\CALM\Testcase1_Cilinder_flow';
 myCFD.transport_prop = jsondecode(fileread(strcat(proj_folder,'\transport_prop.json')));
 myCFD.boundaries.Ux = jsondecode(fileread(strcat(proj_folder,'\boundaries\Ux.json')));
 myCFD.boundaries.Uy = jsondecode(fileread(strcat(proj_folder,'\boundaries\Uy.json')));
@@ -41,7 +41,7 @@ for outerloop = 1:n_it
 
 % Solve system
 myCFD.Solution.Ux = solvematrix_momentum_x(myCFD,M,f);
-
+pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.Ux)
 %calculate residuals
 myCFD.Residual.Ax = diag(M);
 A = diag(diag(M));

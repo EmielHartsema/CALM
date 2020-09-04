@@ -1,7 +1,9 @@
 function [Ux,Uy] = explicitcalc(myCFD)
 %EXPLICITCALC Summary of this function goes here
 %   Detailed explanation goes here
-A = diag(myCFD.Residual.A);
+Ax = diag(myCFD.Residual.Ax);
+Ay = diag(myCFD.Residual.Ay);
+
 Hx = myCFD.Residual.Hx;
 Hy = myCFD.Residual.Hy;
 cp = myCFD.Solution.p;
@@ -32,5 +34,5 @@ for el_index = 1:size(myCFD.Mesh.Elements,1)
     end
 end
 
-Ux = A\Hx-A\gradpx;
-Uy = A\Hy-A\gradpy;
+Ux = Ax\Hx-Ax\gradpx;
+Uy = Ay\Hy-Ay\gradpy;
