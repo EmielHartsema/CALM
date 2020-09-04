@@ -3,9 +3,14 @@ function [c] = solvematrix_momentum_y(myCFD,S,f)
 %   Detailed explanation goes here
 
 %identify fixed value boundaries
-fixedvalues = (strcmp(myCFD.Mesh.PhysicalTag,"slip")|...
-              strcmp(myCFD.Mesh.PhysicalTag,"no_slip")|...
-              strcmp(myCFD.Mesh.PhysicalTag,"inflow"));
+fixedvalues = false(size(myCFD.Mesh.PhysicalTag,2),1);
+for i=1:size(myCFD.Mesh.PhysicalNames,2)
+    boundarytag = myCFD.Mesh.PhysicalNames(i);
+    if strcmp(myCFD.boundaries.Uy.(boundarytag).type,"Fixed value")
+        fixedvalues = fixedvalues | ...
+                      strcmp(myCFD.Mesh.PhysicalTag,myCFD.Mesh.PhysicalNames(i))';
+    end
+end
 
 % remove rows and collums that do not need to be evaluated
 S2 = S(~fixedvalues,~fixedvalues);

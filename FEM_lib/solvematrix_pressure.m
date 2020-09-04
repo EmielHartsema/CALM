@@ -3,7 +3,15 @@ function [c] = solvematrix_pressure(myCFD,S,f)
 %   Detailed explanation goes here
 
 %identify fixed value boundaries
-fixedvalues = strcmp(myCFD.Mesh.PhysicalTag,"outflow");
+%identify fixed value boundaries
+fixedvalues = false(size(myCFD.Mesh.PhysicalTag,2),1);
+for i=1:size(myCFD.Mesh.PhysicalNames,2)
+    boundarytag = myCFD.Mesh.PhysicalNames(i);
+    if strcmp(myCFD.boundaries.p.(boundarytag).type,"Fixed value")
+        fixedvalues = fixedvalues | ...
+                      strcmp(myCFD.Mesh.PhysicalTag,myCFD.Mesh.PhysicalNames(i))';
+    end
+end
 
 % remove rows and collums that do not need to be evaluated
 S2 = S(~fixedvalues,~fixedvalues);

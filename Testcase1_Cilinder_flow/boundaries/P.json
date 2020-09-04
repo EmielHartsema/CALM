@@ -11,5 +11,8 @@
 	"outflow":{
 		"type": "fixed value",
 		"value": 0
+	},
+	"fluid":{
+		"type": "Domain"
 	}
 }

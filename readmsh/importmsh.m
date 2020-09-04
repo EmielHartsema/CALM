@@ -157,7 +157,7 @@ fclose(fid);
 
 
 % Remove redundant information
-mshfile = rmfield(mshfile,'PhysicalNames');
+%mshfile = rmfield(mshfile,'PhysicalNames');
 mshfile = rmfield(mshfile,'entity_physical_tag');
 mshfile = rmfield(mshfile,'NodeIndex');
 
