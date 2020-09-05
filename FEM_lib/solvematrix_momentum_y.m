@@ -31,6 +31,12 @@ f = f-finhom;
 S2 = S(~fixedvalues,~fixedvalues);
 f2 = f(~fixedvalues);
 
+%add under relaxation
+alpha = myCFD.sim_settings.under_relax_fac;
+U_old = myCFD.Solution.Uy(~fixedvalues);
+S2 = S2 + (1-alpha)/alpha*diag(diag(S2));
+f2 = f2 + (1-alpha)/alpha*(diag(diag(S2))*U_old);
+
 % solve the system for the non-fixed values
 c(~fixedvalues) = S2\f2;
 end

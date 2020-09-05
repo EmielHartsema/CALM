@@ -71,7 +71,7 @@ myCFD.Solution.Ux = Ux;
 myCFD.Solution.Uy = Uy;
 
 %waitbar controls
-waitbar(outerloop/n_it,bar,'computing solution...');
+waitbar(outerloop/myCFD.sim_settings.num_iter,bar,'computing solution...');
 % Check for clicked Cancel button
 if getappdata(bar,'canceling')
     break
@@ -82,4 +82,4 @@ delete(bar)
 myCFD.Solution.U = sqrt(myCFD.Solution.Ux.^2+myCFD.Solution.Uy.^2);
 
 % Display solution
-pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.U)
+pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.Ux)

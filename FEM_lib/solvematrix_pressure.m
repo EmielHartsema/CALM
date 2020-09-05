@@ -34,5 +34,10 @@ f2 = f(~fixedvalues);
 
 % solve the system for the non-fixed values
 c(~fixedvalues) = S2\f2;
+
+% add under relaxation
+alpha = myCFD.sim_settings.under_relax_fac;
+p_old = myCFD.Solution.p;
+c = alpha*c+(1-alpha)*p_old;
 end
 
