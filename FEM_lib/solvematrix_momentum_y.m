@@ -12,19 +12,26 @@ for i=1:size(myCFD.Mesh.PhysicalNames,2)
     end
 end
 
-% remove rows and collums that do not need to be evaluated
-S2 = S(~fixedvalues,~fixedvalues);
-f2 = f(~fixedvalues);
-
-% solve the system for the non-fixed values
+%init c with fixed values
 c = zeros(length(fixedvalues),1);
-c(~fixedvalues) = S2\f2;
-
-% add fixed value to solution vector
 index_fv = find(fixedvalues);
 for i=1:nnz(fixedvalues)
     tag = myCFD.Mesh.PhysicalTag(index_fv(i));
     c(index_fv(i)) = myCFD.boundaries.Uy.(tag).value;
 end
+
+%extract collums that belong to fixed values and add coefficnents in the rows.
+Sinhom = S(:,fixedvalues);
+finhom = Sinhom*c(fixedvalues);
+
+% subtract from rhsvector
+f = f-finhom;
+
+% remove rows and collums that do not need to be evaluated
+S2 = S(~fixedvalues,~fixedvalues);
+f2 = f(~fixedvalues);
+
+% solve the system for the non-fixed values
+c(~fixedvalues) = S2\f2;
 end
 
