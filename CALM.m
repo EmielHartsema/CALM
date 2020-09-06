@@ -63,7 +63,7 @@ myCFD.Residual.Hy = (M-A)*myCFD.Solution.Uy;
 [M,f] = pres_BuildMatricesandVectors(myCFD);
 %figure;spy(M);
 % solve system
-myCFD.solution.p = solvematrix_pressure(myCFD,M,f);
+myCFD.Solution.p = solvematrix_pressure(myCFD,M,f);
 
 %% explicit calculation of momentum
 [Ux,Uy] = explicitcalc(myCFD);
@@ -82,4 +82,12 @@ delete(bar)
 myCFD.Solution.U = sqrt(myCFD.Solution.Ux.^2+myCFD.Solution.Uy.^2);
 
 % Display solution
+figure
 pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.Ux)
+title('Ux')
+figure
+pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.Uy)
+title('Uy')
+figure
+pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.p)
+title('p')

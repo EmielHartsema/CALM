@@ -9,7 +9,7 @@
 		"type": "Zero gradient"
 	},
 	"outflow":{
-		"type": "fixed value",
+		"type": "Fixed value",
 		"value": 0
 	},
 	"fluid":{

@@ -52,5 +52,10 @@ for el_index = 1:length(elmatbnd(:,1)) % for all boundary elements extension of 
     end
 end
 
+%add under relaxation
+alpha = myCFD.sim_settings.under_relax_fac;
+U_old = myCFD.Solution.Uy;
+S = S + (1-alpha)/alpha*diag(diag(S));
+f = f + (1-alpha)/alpha*(diag(diag(S))*U_old);
 end
 
