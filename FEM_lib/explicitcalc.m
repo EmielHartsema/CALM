@@ -29,10 +29,18 @@ for el_index = 1:size(myCFD.Mesh.Elements,1)
     
     for i=1:topology
         global_index = elmat(el_index,i);
-        gradpx(global_index) = gradpx(global_index) + beta(i)*cp(global_index)/topology;
-        gradpy(global_index) = gradpy(global_index) + gamma(i)*cp(global_index)/topology;
+        gradpx(global_index) = gradpx(global_index) + beta(i)*cp(global_index);
+        gradpy(global_index) = gradpy(global_index) + gamma(i)*cp(global_index);
     end
 end
+%scale gradp accourding to connectivity
+connectivity = zeros(size(myCFD.Mesh.Nodes,2),1);
+for i=1:size(myCFD.Mesh.Nodes,2)
+    connectivity(i) = nnz(reshape(elmat,numel(elmat),1)==i);
+end
+gradpx = gradpx./connectivity;
+gradpy = gradpy./connectivity;
 
+% calculate velocity fields
 Ux = Ax\Hx-Ax\gradpx;
 Uy = Ay\Hy-Ay\gradpy;
