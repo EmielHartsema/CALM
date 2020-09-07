@@ -42,7 +42,7 @@ for index1 = 1:topology
         sum_raH = sum_raH + ...
                   (rAHx(global_index)*beta(index1)+rAHy(global_index)*gamma(index1));
     end
-    felem(index1) = sum_raH*abs(Delta)/6;
+    felem(index1) = -sum_raH*abs(Delta)/6;
 end
 
 end
