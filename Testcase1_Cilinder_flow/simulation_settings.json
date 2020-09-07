@@ -1,4 +1,4 @@
 {
-	"num_iter": 1000,
+	"num_iter": 100,
 	"under_relax_fac": 0.002
 }

@@ -42,5 +42,5 @@ gradpx = gradpx./connectivity;
 gradpy = gradpy./connectivity;
 
 % calculate velocity fields
-Ux = Ax\Hx-Ax\gradpx;
-Uy = Ay\Hy-Ay\gradpy;
+Ux = (Ax\Hx)-(Ax\gradpx);
+Uy = (Ay\Hy)-(Ay\gradpy);
