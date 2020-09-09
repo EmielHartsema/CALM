@@ -30,10 +30,6 @@ myCFD.Solution.p = zeros(size(myCFD.Mesh.Nodes,2),1);
 
 %create figure to show residuals
 residual_fig = figure('Name','Residuals');
-%create waitbar
-%bar = waitbar(0,'computing solution...','Name','calculating solution...',...
-%    'CreateCancelBtn','setappdata(gcbf,''canceling'',1)');
-%setappdata(bar,'canceling',0);
 for outerloop = 1:myCFD.sim_settings.num_iter
 %% Momentum predictor
 % assemble matrix for ux
@@ -72,16 +68,8 @@ myCFD.Solution.p = solvematrix_pressure(myCFD,M,f);
 [Ux,Uy] = explicitcalc(myCFD);
 myCFD.Solution.Ux = Ux;
 myCFD.Solution.Uy = Uy;
-
 disp_residual(residual_fig,myCFD)
-%waitbar controls
-%waitbar(outerloop/myCFD.sim_settings.num_iter,bar,'computing solution...');
-% Check for clicked Cancel button
-%if getappdata(bar,'canceling')
-%    break
-%end
 end%end of outer loop
-%delete(bar)
 % Post Processing
 myCFD.Solution.U = sqrt(myCFD.Solution.Ux.^2+myCFD.Solution.Uy.^2);
 
