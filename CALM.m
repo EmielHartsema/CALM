@@ -39,7 +39,7 @@ for outerloop = 1:myCFD.sim_settings.num_iter
 
 myCFD.Residual.rx(outerloop) = norm(M*myCFD.Solution.Ux-f,2);
 % Solve system
-myCFD.Solution.Ux = solvematrix_momentum_x(myCFD,M,f);
+myCFD.Solution.Ux = M\f;
 %calculate residuals
 myCFD.Residual.Ax = diag(M);
 A = diag(diag(M));
@@ -50,7 +50,7 @@ myCFD.Residual.Hx = (A*myCFD.Solution.Ux)-(M*myCFD.Solution.Ux);
 %figure;spy(M);
 myCFD.Residual.ry(outerloop) = norm(M*myCFD.Solution.Uy-f,2);
 % Solve system
-myCFD.Solution.Uy = solvematrix_momentum_y(myCFD,M,f);
+myCFD.Solution.Uy = M\f;
 
 %calculate residuals
 myCFD.Residual.Ay = diag(M);
