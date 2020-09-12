@@ -52,8 +52,37 @@ for el_index = 1:length(elmatbnd(:,1)) % for all boundary elements extension of 
     end
 end
 
+%% add modification for fixed points
+%identify fixed value boundaries
+fixedvalues = false(size(myCFD.Mesh.PhysicalTag,2),1);
+for i=1:size(myCFD.Mesh.PhysicalNames,2)
+    boundarytag = myCFD.Mesh.PhysicalNames(i);
+    if strcmp(myCFD.boundaries.Ux.(boundarytag).type,"Fixed value")
+        fixedvalues = fixedvalues | ...
+                      strcmp(myCFD.Mesh.PhysicalTag,myCFD.Mesh.PhysicalNames(i))';
+    end
+end
 
-%add under relaxation
+%init c with fixed values
+c = zeros(length(fixedvalues),1);
+index_fv = find(fixedvalues);
+for i=1:nnz(fixedvalues)
+    tag = myCFD.Mesh.PhysicalTag(index_fv(i));
+    c(index_fv(i)) = myCFD.boundaries.Ux.(tag).value;
+end
+
+%extract collums that belong to fixed values and add coefficnents in the rows.
+Sinhom = S(:,fixedvalues);
+finhom = Sinhom*c(fixedvalues);
+
+% subtract from rhsvector
+f = f-finhom;
+
+S(fixedvalues,fixedvalues) = speye(sum(fixedvalues));
+f(fixedvalues) = c(fixedvalues);
+
+
+%% add under relaxation
 alpha = myCFD.sim_settings.under_relax_fac;
 U_old = myCFD.Solution.Ux;
 S = S + (1-alpha)/alpha*diag(diag(S));
