@@ -14,6 +14,7 @@ addpath('FEM_lib')
 % Read settings
 proj_folder = uigetdir;
 %proj_folder = 'C:\Users\Emiel\Documents\CALM\Testcase1_Cilinder_flow';
+clear myCFD;
 myCFD.sim_settings = jsondecode(fileread(strcat(proj_folder,'\simulation_settings.json')));
 myCFD.transport_prop = jsondecode(fileread(strcat(proj_folder,'\transport_prop.json')));
 myCFD.boundaries.Ux = jsondecode(fileread(strcat(proj_folder,'\boundaries\Ux.json')));
@@ -42,8 +43,7 @@ myCFD.Solution.Ux = solvematrix_momentum_x(myCFD,M,f);
 %calculate residuals
 myCFD.Residual.Ax = diag(M);
 A = diag(diag(M));
-myCFD.Residual.Hx = A*myCFD.Solution.Ux-M*myCFD.Solution.Ux;
-
+myCFD.Residual.Hx = (A*myCFD.Solution.Ux)-(M*myCFD.Solution.Ux);
 
 % assemble matrix for uy
 [M,f] = uy_BuildMatricesandVectors(myCFD);
@@ -75,11 +75,12 @@ myCFD.Solution.U = sqrt(myCFD.Solution.Ux.^2+myCFD.Solution.Uy.^2);
 
 % Display solution
 figure
+subplot(3,1,1)
 pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.Ux)
 title('Ux')
-figure
+subplot(3,1,2)
 pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.Uy)
 title('Uy')
-figure
+subplot(3,1,3)
 pdeplot(myCFD.Mesh.Nodes,myCFD.Mesh.Elements','XYData',myCFD.Solution.p)
 title('p')
