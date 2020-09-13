@@ -29,6 +29,8 @@ myCFD.Solution.Ux = zeros(size(myCFD.Mesh.Nodes,2),1);
 myCFD.Solution.Uy = zeros(size(myCFD.Mesh.Nodes,2),1);
 myCFD.Solution.p = zeros(size(myCFD.Mesh.Nodes,2),1);
 
+[myCFD.Mesh.areafunc.x,myCFD.Mesh.areafunc.y] = calcAreafunc(myCFD);
+
 %create figure to show residuals
 residual_fig = figure('Name','Residuals');
 for outerloop = 1:myCFD.sim_settings.num_iter

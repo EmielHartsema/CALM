@@ -23,7 +23,8 @@ x = myCFD.Mesh.Nodes(1,:);
 y = myCFD.Mesh.Nodes(2,:);
 Ax = myCFD.Residual.Ax;
 Ay = myCFD.Residual.Ay;
-
+areafunc_x = myCFD.Mesh.areafunc.x;
+areafunc_y = myCFD.Mesh.areafunc.y;
 
 xc = zeros(1,topology);
 yc = zeros(1,topology);
@@ -43,16 +44,12 @@ gamma = B_mat(3,1:3);
 Selem = zeros(3);
 for index1 = 1:topology
 	for index2 = 1:topology
-        sum_ax = 0;
-        sum_ay = 0;
-        for i=1:3
-            globalindex = elmat(el_index,i);
-            sum_ax = sum_ax + 1/Ax(globalindex);
-            sum_ay = sum_ay + 1/Ay(globalindex);
-        end
-        Selem(index1,index2) = -(beta(index1)*beta(index2)*sum_ax+...
-                                gamma(index1)*gamma(index2)*sum_ay)*...
-                                abs(Delta)/6;
+        global_1 = elmat(el_index,index1);
+        global_2 = elmat(el_index,index2);
+        
+        Selem(index1,index2) = (1/Ax(global_1)*areafunc_x(global_1,global_2)*beta(index1)+...
+                               1/Ay(global_1)*areafunc_y(global_1,global_2)*gamma(index1))*...
+                               abs(Delta)/2;
 	end
 end
 
